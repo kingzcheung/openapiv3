@@ -58,6 +58,24 @@ pub enum ParameterSchemaOrContent {
     Content(Content),
 }
 
+impl ParameterSchemaOrContent {
+    /// Returns `true` if the parameter schema or content is [`Schema`].
+    ///
+    /// [`Schema`]: ParameterSchemaOrContent::Schema
+    #[must_use]
+    pub fn is_schema(&self) -> bool {
+        matches!(self, Self::Schema(..))
+    }
+
+    /// Returns `true` if the parameter schema or content is [`Content`].
+    ///
+    /// [`Content`]: ParameterSchemaOrContent::Content
+    #[must_use]
+    pub fn is_content(&self) -> bool {
+        matches!(self, Self::Content(..))
+    }
+}
+
 pub type Content = IndexMap<String, MediaType>;
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
@@ -120,6 +138,7 @@ pub enum Parameter {
 }
 
 impl Parameter {
+    
     /// Returns the `parameter_data` field of this [ParameterData].
     pub fn parameter_data(self) -> ParameterData {
         match self {
@@ -166,6 +185,38 @@ impl Parameter {
                 style: _,
             } => parameter_data,
         }
+    }
+
+    /// Returns `true` if the parameter is [`Query`].
+    ///
+    /// [`Query`]: Parameter::Query
+    #[must_use]
+    pub fn is_query(&self) -> bool {
+        matches!(self, Self::Query { .. })
+    }
+
+    /// Returns `true` if the parameter is [`Header`].
+    ///
+    /// [`Header`]: Parameter::Header
+    #[must_use]
+    pub fn is_header(&self) -> bool {
+        matches!(self, Self::Header { .. })
+    }
+
+    /// Returns `true` if the parameter is [`Path`].
+    ///
+    /// [`Path`]: Parameter::Path
+    #[must_use]
+    pub fn is_path(&self) -> bool {
+        matches!(self, Self::Path { .. })
+    }
+
+    /// Returns `true` if the parameter is [`Cookie`].
+    ///
+    /// [`Cookie`]: Parameter::Cookie
+    #[must_use]
+    pub fn is_cookie(&self) -> bool {
+        matches!(self, Self::Cookie { .. })
     }
 }
 
